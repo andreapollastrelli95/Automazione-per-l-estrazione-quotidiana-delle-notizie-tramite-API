@@ -1,61 +1,27 @@
-# Automazione-per-l-estrazione-quotidiana-delle-notizie-tramite-API
-Questo progetto automatizza il download delle notizie italiane aggiornate utilizzando un sistema basato su API. Lo script estrae i titoli dai principali quotidiani nazionali, li pulisce, li organizza e genera automaticamente un file CSV con data e ora dell’estrazione.
+# Estrazione di notizie italiane tramite API
 
-🎯 Obiettivi del progetto
-Automatizzare la raccolta delle notizie italiane da più fonti
-Salvare i risultati in un file CSV con timestamp
-Rendere il processo eseguibile con un singolo comando
-Creare una pipeline semplice, veloce e riutilizzabile
+Scarica le notizie italiane da [NewsAPI](https://newsapi.org), toglie titoli vuoti e duplicati e le salva in un CSV con data e ora dell'estrazione.
 
-⚙️ Come funziona l’automazione
-Lo script:
-Si connette ai server delle news tramite API
-Recupera un numero configurabile di notizie (es. 100)
-Estrae:
-nome della fonte
-titolo della notizia
-URL (se disponibile)
-data di pubblicazione
+## Avvio
 
-Genera un file CSV con nome automatico:
-notizie_italia_YYYY-MM-DD_HH-MM.csv
-Esempio reale generato:
-notizie_italia_2026-05-14_11-31.csv
-
-🛠️ Tecnologie utilizzate
-Python
-Requests (per chiamate API)
-Pandas (per la creazione del CSV)
-JSON (gestione delle risposte API)
-Batch / CMD (per esecuzione automatizzata)
-
-▶️ Come eseguire lo script
-Clona il repository
-Installa le dipendenze:
-
-Codice
+```bash
 pip install -r requirements.txt
-Esegui lo script:
-
-Codice
+export NEWSAPI_KEY=la_tua_chiave   # Windows PowerShell: $env:NEWSAPI_KEY="la_tua_chiave"
 python estrai_notizie.py
+```
 
-Troverai il CSV generato nella cartella del progetto.
+Per un'esecuzione quotidiana si può usare l'Utilità di pianificazione di Windows o cron. Con il piano gratuito NewsAPI può fornire le notizie in ritardo.
 
-📌 Funzionalità aggiuntive (opzionali)
-Pianificazione giornaliera tramite Windows Task Scheduler
-Invio automatico via email
-Integrazione con Power BI per dashboard aggiornate
+Lo script è stato riscritto a partire dal formato del CSV di esempio, generato da una versione precedente non conservata. I test simulano l'API.
 
-🧪 Esempio di output (console)
-Connessione ai server delle notizie...
-✅ Successo! Creato il file: notizie_italia_2026-05-14_11-31.csv
---- ESTRATTE 100 NOTIZIE ---
-    source_name                title
-0   Ilpost.it                  Al ministero della Giustizia la gestione dell’...
-1   Tuttomercatoweb.com        Lotito su Malagò: "Kant parlava di fenomeno e ...
-2   Ilgiornale.it              Una voragine da 174 miliardi
-3   La Repubblica              Obesità: aumenta il peso medio, in ascensore e...
-...
-Premi Invio per chiudere...
-<img width="926" height="495" alt="image" src="https://github.com/user-attachments/assets/301183f3-43bb-47ed-9248-b0d6000c1a98" />
+## Output di esempio della versione precedente
+
+`notizie_italia_2026-05-14_11-31.csv` contiene 100 notizie con quattro colonne: `publishedAt`, `source_name`, `title` e `url`.
+
+Controllando il file risulta che:
+
+- le notizie arrivano da 19 fonti, con Tuttomercatoweb (23), ANSA (19) e Il Fatto Quotidiano (17) in testa;
+- 5 titoli sono duplicati;
+- l'estrazione è del 14 maggio alle 11:31, ma le notizie sono state pubblicate il 13 maggio tra le 05:33 e le 09:30 UTC, quindi con oltre un giorno di ritardo.
+
+<img width="926" height="495" alt="Output dello script nel terminale" src="https://github.com/user-attachments/assets/301183f3-43bb-47ed-9248-b0d6000c1a98" />
